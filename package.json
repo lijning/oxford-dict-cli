@@ -1,0 +1,23 @@
+{
+  "name": "oxdict-cli",
+  "version": "1.0.0",
+  "description": "This is to search for vacabulary in cmd.",
+  "main": "oxdict.js",
+  "scripts": {
+    "test": "\"echo \\\"Test\\\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "null"
+  },
+  "keywords": [
+    "cli",
+    "oxford",
+    "dictionary"
+  ],
+  "author": "Jianing",
+  "license": "ISC",
+  "dependencies": {
+    "oxford-dictionary-api": "^1.0.1"
+  }
+}
