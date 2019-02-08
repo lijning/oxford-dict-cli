@@ -1,5 +1,5 @@
 {
-  "name": "oxdict-cli",
+  "name": "oxford-dict-cli",
   "version": "1.0.0",
   "description": "This is to search for vacabulary in cmd.",
   "main": "main.js",
@@ -19,7 +19,9 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^2.19.0",
+    "oxford-dictionary": "^1.4.1",
     "oxford-dictionary-api": "^1.0.1",
+    "pkg": "^4.3.7",
     "request": "^2.88.0",
     "vorpal": "^1.12.0"
   }

@@ -4,42 +4,51 @@ const vorpal = require('vorpal'), conn = require('./connection');
 const aid = 'f3c36fce', key = 'f9180969a76f8f39b2bfcb1561d25441';
 
 //const dict = new Dictionary(aid, key);
-const oxford = vorpal();
+const cli = vorpal();
 
-oxford.command('definition <word>', 'Get the definition of a word.')
+cli.command('definition <word>', 'Get the definition and examples of a word.')
   .alias('d', 'de', 'def')
+  .option('-v, --verbose', 'print details.')
+  .option('-e, --examples', 'print examples.')
   .action(function (args, backToVorpal) {
     //let print = this.log; //???
     let that = this;
-    conn.defWord(args.word).then(function (data, err) {
+    if (args.options.verbose) {
+      args.options.examples = true;
+    }
+    conn.defWord(args.word).then(function (data) {
       let count = 1;
       for (let unit of data) {
         const entries = unit.entries;
         for (let entry of entries) {
           const senses = entry.senses;
-          for (let sense of senses) {
-            //that.log(sense);
-            let output = ' Definitions:\n';
-            if (!sense.definitions) continue;
-            for (let def of sense.definitions) {
-              output += ' # ' + def + '\n';
+          for (let i = 1; i <= senses.length; i++) {
+            sense = senses[i - 1]; //that.log(sense);
+            let lines = ['\n'];
+            if (sense.definitions) {
+              //lines.push(' Definitions:');
+              for (let def of sense.definitions) {
+                lines.push(' # '.padStart(4) + def);
+              }
             }
-            output += ' Examples:\n';
             const examples = sense.examples;
-            if(!examples) continue;
-            for (let example of examples) {
-              output += ' > ' + example.text + '\n';
+            if (examples && args.examples) {
+              //lines.push(' Examples:  ');
+              for (let example of examples) {
+                lines.push(' > '.padStart(4) + example.text);
+              }
             }
-            that.log(output);
+            for (let line of lines) { that.log(line) }
+
           }
         }
       }
-    });
+    },err=>console.error);
     //this.log('searching for: ', args.word);
     backToVorpal();
   });
 
-oxford.delimiter('dictionary$').show();
+cli.delimiter('dictionary$').show();
 
 /* 数组的每一个元素：似乎是按照词性分类的。
 { entries:
