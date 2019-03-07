@@ -18,7 +18,9 @@
   "author": "Jianing",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^2.4.2",
     "commander": "^2.19.0",
+    "fs": "0.0.1-security",
     "oxford-dictionary": "^1.4.1",
     "oxford-dictionary-api": "^1.0.1",
     "pkg": "^4.3.7",
