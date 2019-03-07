@@ -1,64 +1,13 @@
-function Entry() {
-  // no data
-}
-
-let queryLexicalEntry = {
-  getLess: function () {
-    let definitions = this.se
-  }
-}
-
-// function DictQuery(raw) {
-//   if (raw.results.length > 1) {
-//     throw new Error('multiple results.')
-//   }
-//   this.data = raw.results[0];
-//   this.index
-// }
-
-// let query = {
-//   //
-// }
-
-// function QueryResult(raw) {
-//   if (raw.results.length > 1) {
-//     throw new Error('multiple results.')
-//   }
-//   this.data = raw.results[0];
-//   for (let each of this.data.lexicalEntries) {
-//     each.prototype = new Entry();
-//   }
-//   this.index = 0;
-//   this.cur = null;
-// }
-// QueryResult.prototype = {
-//   // 展示当前LexicalEntry的简略信息，包括：
-//   // 该LE的所有entries的所有senses的定义，并为
-//   nextLexicalEntry: function () {
-//     this.cur = this.data.lexicalEntries[this.index];
-//     this.index++;
-//     return this.cur.getLess();
-//   },
-
-// }
-
-// let createQuery = (raw) => {
-//   if (raw.results.length > 1) {
-//     throw new Error('multiple results.')
-//   }
-//   let result = Object.create(raw.results[0]);
-// }
-
 const query = {
   breifDefinitions: function (sense) {
     // console.log(sense.subsenses);
-    let def = sense.short_definitions;
+    let def = sense.definitions;
     let sub = sense.subsenses;
     // let sub = sense.subsenses instanceof Array?sense.subsenses.map(breifDefinitions):null;
     let str = `> ${def}\n`;
     if (sub) {
       for (let i = 0; i < sub.length; i++) {
-        str += `  > ${sub[i].short_definitions}\n`
+        str += `  > ${sub[i].definitions}\n`
       }
     };
     // console.log(str)
@@ -67,12 +16,16 @@ const query = {
   printCurEntry: function () {
     let cEntry = this.cLexical.entries[this.iEntry];
     let senses = cEntry.senses.map(this.breifDefinitions);
-    console.log(senses);
+    //console.log(senses);
     let str = `$\n`;
     for (let i = 0; i < senses.length; i++) {
       str += senses[i];
     }
     return str;
+  },
+  getListSenses: function () {
+    let cEntry = this.cLexical.entries[this.iEntry];
+    let senses = cEntry.senses.map(e => e.short_definitions.join('\n'));
   },
   nextEntry: function() {
     iEntry+=1;
@@ -97,6 +50,7 @@ function Query(json) {
 
 Query.prototype = query;
 
+module.exports=Query;
 
 const fs = require('fs');
 
